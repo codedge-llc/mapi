@@ -1,5 +1,5 @@
 use Mix.Config
 
-config :mapi, servers: [
+config :mapi, endpoints: [
     {String, [port: 4002]} 
   ]

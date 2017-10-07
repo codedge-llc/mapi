@@ -10,14 +10,14 @@ defmodule MapiTest do
 
   test "returns 404 if path atom not defined" do
     resp = HTTPoison.get!("http://localhost:4002/not_defined?q1=elixir")
-    assert resp.body == "Not found."
+    assert Poison.decode!(resp.body) == %{"error" => "not_found"}
     assert resp.status_code == 404
   end
 
   test "returns 404 if module's function not defined" do
     _defined = :bogus_fun
     resp = HTTPoison.get!("http://localhost:4002/bogus_fun?q1=elixir")
-    assert resp.body == "Not found."
+    assert Poison.decode!(resp.body) == %{"error" => "not_found"}
     assert resp.status_code == 404
   end
 end

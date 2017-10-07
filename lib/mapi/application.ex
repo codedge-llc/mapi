@@ -13,7 +13,7 @@ defmodule Mapi.Application do
   def start(_type, _args) do
     workers =
       :mapi
-      |> Application.get_env(:servers, [])
+      |> Application.get_env(:endpoints, [])
       |> Enum.map(&worker_mapper/1)
 
     opts = [strategy: :one_for_one, name: Mapi.Supervisor]

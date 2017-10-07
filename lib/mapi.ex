@@ -27,15 +27,14 @@ defmodule Mapi do
         |> Map.values
 
       if Kernel.function_exported?(mod, path, Enum.count(params)) do
-        result = apply(opts[:mod], path, params)
-
         resp =
-          result
+          opts[:mod]
+          |> apply(path, params)
           |> Poison.encode!
 
-        status = status_for_result(result)
         conn
-        |> Plug.Conn.send_resp(status, resp)
+        |> Plug.Conn.put_resp_content_type("application/json")
+        |> Plug.Conn.send_resp(200, resp)
       else
         resp_not_found(conn)
       end
@@ -46,9 +45,7 @@ defmodule Mapi do
 
   defp resp_not_found(conn) do
     conn
-    |> Plug.Conn.send_resp(404, "Not found.")
+    |> Plug.Conn.put_resp_content_type("application/json")
+    |> Plug.Conn.send_resp(404, Poison.encode!(%{error: :not_found}))
   end
-
-  defp status_for_result({:error, _}), do: 400
-  defp status_for_result(_), do: 200
 end
