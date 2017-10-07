@@ -1,13 +1,23 @@
 defmodule Mapi.Mixfile do
   use Mix.Project
 
+  @version "0.1.0"
+
   def project do
     [
       app: :mapi,
-      version: "0.1.0",
+      name: "mapi",
+      description: description(),
+      version: @version,
       elixir: "~> 1.4",
       start_permanent: Mix.env == :prod,
       test_coverage: [tool: ExCoveralls],
+      docs: [
+        main: "readme",
+        extras: [
+          "README.md"
+        ]
+      ],
       preferred_cli_env: [
         "coveralls": :test,
         "coveralls.detail": :test,
@@ -19,6 +29,10 @@ defmodule Mapi.Mixfile do
       ],
       deps: deps()
     ]
+  end
+
+  defp description do
+    "Turn your Elixir module into an HTTP microservice API"
   end
 
   # Run "mix help compile.app" to learn about applications.

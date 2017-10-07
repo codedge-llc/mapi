@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/codedge-llc/mapi.svg?branch=master)](https://travis-ci.org/codedge-llc/mapi)
+[![Coverage Status](https://coveralls.io/repos/github/codedge-llc/mapi/badge.svg)](https://coveralls.io/github/codedge-llc/mapi)
+[![Hex.pm](http://img.shields.io/hexpm/v/mapi.svg)](https://hex.pm/packages/mapi)
+
 # Mapi
 Map your Elixir module to a microservice API
 
