@@ -8,6 +8,7 @@ defmodule Mapi.Mixfile do
       app: :mapi,
       name: "mapi",
       description: description(),
+      package: package(),
       version: @version,
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -59,6 +60,15 @@ defmodule Mapi.Mixfile do
       {:excoveralls, "~> 0.5", only: :test},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
       {:credo, "~> 0.8", only: [:dev, :test], runtime: false}
+    ]
+  end
+
+  defp package do
+    [
+       files: ["lib", "mix.exs", "README*", "LICENSE*"],
+       maintainers: ["Henry Popp"],
+       licenses: ["MIT"],
+       links: %{"GitHub" => "https://github.com/codedge-llc/pigeon"}
     ]
   end
 end
