@@ -10,6 +10,7 @@ defmodule Mapi.Mixfile do
       description: description(),
       version: @version,
       elixir: "~> 1.4",
+      elixirc_paths: elixirc_paths(Mix.env),
       start_permanent: Mix.env == :prod,
       test_coverage: [tool: ExCoveralls],
       docs: [
@@ -30,6 +31,9 @@ defmodule Mapi.Mixfile do
       deps: deps()
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
 
   defp description do
     "Turn your Elixir module into an HTTP microservice API"
