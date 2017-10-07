@@ -9,7 +9,9 @@ Very much a work in progress.
 
   ```elixir
   def deps do
-    [{:mapi, "~> 0.1.0"}]
+    [
+      {:mapi, "~> 0.1.0"}
+    ]
   end
   ```
 
@@ -42,7 +44,7 @@ Very much a work in progress.
   Parameter values are strings, so your module will need to cast accordingly.
   Currently only `GET` requests are supported.
 
-  Your module's function must return a response that is `Poison` encodable.
+  Your module's function must return a response that is [Poison](https://github.com/devinus/poison) encodable.
   All responses are JSON with a `200` status unless a function is not defined,
   in which case it will return `404` with a `{"error": "not_found"}` body.
 
