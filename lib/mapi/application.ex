@@ -6,8 +6,9 @@ defmodule Mapi.Application do
   use Application
 
   defp worker_mapper({mod, opts}) do
+    id = Module.concat(Mapi, mod)
     port = Keyword.get(opts, :port, 4000)
-    Plug.Adapters.Cowboy.child_spec(:http, Mapi, [mod: mod, port: port], [port: port])
+    Plug.Adapters.Cowboy.child_spec(:http, Mapi, [mod: mod, port: port], [ref: id, port: port])
   end
 
   def start(_type, _args) do
