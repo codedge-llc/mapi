@@ -45,17 +45,28 @@ Very much a work in progress.
 
   URL params are applied to the function in alphabetical order without respect
   to the parameter names themselves. Use parameter names such as `q1, q2, ...`.
-  Parameter values are strings, so your module will need to cast accordingly.
+  Parameters are strings, but will be cast to integers, atoms, and booleans if
+  applicable. All other types are not yet supported.
+
   Currently only `GET` requests are supported.
 
-  Your module's function must return a response that is [Poison](https://github.com/devinus/poison) encodable.
-  All responses are JSON with a `200` status unless a function is not defined,
-  in which case it will return `404` with a `{"error": "not_found"}` body.
+## Responses
+
+  Mapi currently supports the following response types:
+  * Plaintext
+  * JSON
+  * Erlang ETF
+
+  Configure them with a `:type` option of either `:text`, `:json`, or `:etf`,
+  respectively. If not specified, Mapi will default to plaintext.
+
+  All valid requests give a response of `200` status. Invalid paths will
+  return `404`. Valid paths with an incorrect number of parameters will return
+  `400`, and all other errors will return `500`.
 
 ## Roadmap TODO
 
   * Configurable support for HTTP methods other than `GET`
   * Body parameter decoding (for non-GET requests)
   * Configurable endpoint webserver
-  * Configurable response type (Plaintext, XML, ETF, etc.)
   * Support for nested paths, custom routing, etc

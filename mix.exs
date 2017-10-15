@@ -1,7 +1,7 @@
 defmodule Mapi.Mixfile do
   use Mix.Project
 
-  @version "0.1.0"
+  @version "0.2.0"
 
   def project do
     [
@@ -68,7 +68,7 @@ defmodule Mapi.Mixfile do
        files: ["lib", "mix.exs", "README*", "LICENSE*"],
        maintainers: ["Henry Popp"],
        licenses: ["MIT"],
-       links: %{"GitHub" => "https://github.com/codedge-llc/pigeon"}
+       links: %{"GitHub" => "https://github.com/codedge-llc/mapi"}
     ]
   end
 end

@@ -6,10 +6,22 @@ defmodule Mapi.Application do
   use Application
 
   defp worker_mapper({mod, opts}) do
-    id = Module.concat(Mapi, mod)
+    id = :erlang.make_ref
     port = Keyword.get(opts, :port, 4000)
-    Plug.Adapters.Cowboy.child_spec(:http, Mapi, [mod: mod, port: port], [ref: id, port: port])
+    mapi_opts = mapi_opts(mod, opts)
+    Plug.Adapters.Cowboy.child_spec(:http, Mapi, mapi_opts, [ref: id, port: port])
   end
+
+  def mapi_opts(mod, opts) do
+    opts
+    |> Keyword.put(:type, resp_for(opts[:type]))
+    |> Keyword.put(:mod, mod)
+  end
+
+  defp resp_for(:text), do: Mapi.Response.Plain
+  defp resp_for(:json), do: Mapi.Response.Json
+  defp resp_for(:etf), do: Mapi.Response.Etf
+  defp resp_for(_), do: Mapi.Response.Plain
 
   def start(_type, _args) do
     workers =
