@@ -3,6 +3,7 @@ defmodule Mapi do
 
   alias Plug.Conn
 
+  @doc false
   def init(opts) do
     port = Keyword.get(opts, :port, 4000)
     mod = Keyword.get(opts, :mod)
@@ -21,12 +22,17 @@ defmodule Mapi do
       iex> is_reference(ref)
       true
   """
+  @spec start(module, Keyword.t) :: {:ok, reference}
+                                  | {:error, :eaddrinuse}
+                                  | {:error, term}
   def start(mod, opts) do
     id = :erlang.make_ref
     port = Keyword.get(opts, :port, 4000)
     mapi_opts = Mapi.Application.mapi_opts(mod, opts)
-    Plug.Adapters.Cowboy.http(Mapi, mapi_opts, [ref: id, port: port])
-    {:ok, id}
+    case Plug.Adapters.Cowboy.http(Mapi, mapi_opts, [ref: id, port: port]) do
+      {:ok, _pid} -> {:ok, id}
+      error -> error
+    end
   end
 
   @doc ~S"""
@@ -38,8 +44,9 @@ defmodule Mapi do
       iex> Mapi.stop(ref)
       :ok
   """
-  def stop(pid) do
-    Plug.Adapters.Cowboy.shutdown(pid)
+  @spec stop(reference) :: :ok
+  def stop(ref) do
+    Plug.Adapters.Cowboy.shutdown(ref)
   end
 
   defp info(mod, type, port) do
@@ -52,6 +59,7 @@ defmodule Mapi do
     Poison.SyntaxError -> val
   end
 
+  @doc false
   def call(conn, opts) do
     path =
       conn.path_info
