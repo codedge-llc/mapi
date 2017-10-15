@@ -1,4 +1,6 @@
 defmodule Mapi.Response.Etf do
+  @moduledoc false
+
   @behaviour Mapi.Response
 
   def content_type, do: "application/octet-stream"

@@ -1,4 +1,6 @@
 defmodule Mapi.Response.Json do
+  @moduledoc false
+
   @behaviour Mapi.Response
 
   def content_type, do: "application/json"

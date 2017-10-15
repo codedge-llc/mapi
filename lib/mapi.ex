@@ -12,13 +12,32 @@ defmodule Mapi do
     opts
   end
 
+  @doc ~S"""
+  Starts a Mapi server with given opts.
+
+  ## Examples
+
+      iex> {:ok, ref} = Mapi.start(String, [port: 8000])
+      iex> is_reference(ref)
+      true
+  """
   def start(mod, opts) do
     id = :erlang.make_ref
     port = Keyword.get(opts, :port, 4000)
     mapi_opts = Mapi.Application.mapi_opts(mod, opts)
     Plug.Adapters.Cowboy.http(Mapi, mapi_opts, [ref: id, port: port])
+    {:ok, id}
   end
 
+  @doc ~S"""
+  Stops a running Mapi server.
+
+  ## Examples
+
+      iex> {:ok, ref} = Mapi.start(String, [port: 8001])
+      iex> Mapi.stop(ref)
+      :ok
+  """
   def stop(pid) do
     Plug.Adapters.Cowboy.shutdown(pid)
   end
