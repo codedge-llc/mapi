@@ -21,6 +21,8 @@ defmodule Mapi do
       iex> {:ok, ref} = Mapi.start(String, [port: 8000])
       iex> is_reference(ref)
       true
+      iex> Mapi.start(Enum, [port: 8000])
+      {:error, :eaddrinuse}
   """
   @spec start(module, Keyword.t) :: {:ok, reference}
                                   | {:error, :eaddrinuse}
