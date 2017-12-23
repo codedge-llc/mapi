@@ -1,15 +1,18 @@
 defmodule Mapi.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
 
-  defp worker_mapper({mod, opts}) do
+  defp worker_mapper({mod, opts}) when is_atom(mod) do
     id = :erlang.make_ref
     port = Keyword.get(opts, :port, 4000)
     mapi_opts = mapi_opts(mod, opts)
-    Plug.Adapters.Cowboy.child_spec(:http, Mapi, mapi_opts, [ref: id, port: port])
+    spec_opts = [
+      scheme: :http,
+      plug: {Mapi, mapi_opts},
+      options: [ref: id, port: port]
+    ]
+    Plug.Adapters.Cowboy2.child_spec(spec_opts)
   end
 
   def mapi_opts(mod, opts) do

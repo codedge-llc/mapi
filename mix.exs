@@ -1,7 +1,7 @@
 defmodule Mapi.Mixfile do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "0.3.0"
 
   def project do
     [
@@ -37,7 +37,7 @@ defmodule Mapi.Mixfile do
   defp elixirc_paths(_),     do: ["lib"]
 
   defp description do
-    "Turn your Elixir module into an HTTP microservice API"
+    "Turn your Elixir module into an HTTP/2 microservice API"
   end
 
   # Run "mix help compile.app" to learn about applications.
@@ -51,8 +51,8 @@ defmodule Mapi.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:cowboy, "~> 1.0"},
-      {:plug, "~> 1.0"},
+      {:cowboy, "~> 2.1"},
+      {:plug, "~> 1.5.0-rc.0"},
       {:poison, "~> 3.0"},
       {:httpoison, "~> 0.13.0", only: :test},
       {:earmark, "~> 1.0", only: :dev},

@@ -5,7 +5,7 @@
 # mapi
 Turn your Elixir module into an HTTP microservice API
 
-Very much a work in progress.
+Supports HTTP/1.1 and HTTP/2. Very much a work in progress.
 
 ## Installation
 
@@ -39,6 +39,7 @@ Set up an example server for the `String` module with JSON responses.
   ```
 
 Once configured, call your server as if you were calling the function.
+Mapi supports both HTTP/1.1 and HTTP/2.
 
   ```bash
   $ curl localhost:4002/upcase?q1="testing"

@@ -31,7 +31,7 @@ defmodule Mapi do
     id = :erlang.make_ref
     port = Keyword.get(opts, :port, 4000)
     mapi_opts = Mapi.Application.mapi_opts(mod, opts)
-    case Plug.Adapters.Cowboy.http(Mapi, mapi_opts, [ref: id, port: port]) do
+    case Plug.Adapters.Cowboy2.http(Mapi, mapi_opts, [ref: id, port: port]) do
       {:ok, _pid} -> {:ok, id}
       error -> error
     end
@@ -48,7 +48,7 @@ defmodule Mapi do
   """
   @spec stop(reference) :: :ok
   def stop(ref) do
-    Plug.Adapters.Cowboy.shutdown(ref)
+    Plug.Adapters.Cowboy2.shutdown(ref)
   end
 
   defp info(mod, type, port) do
