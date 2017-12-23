@@ -14,7 +14,7 @@ Supports HTTP/1.1 and HTTP/2. Very much a work in progress.
   ```elixir
   def deps do
     [
-      {:mapi, "~> 0.2.0"}
+      {:mapi, "~> 0.3.0"}
     ]
   end
   ```
