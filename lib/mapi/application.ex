@@ -4,14 +4,16 @@ defmodule Mapi.Application do
   use Application
 
   defp worker_mapper({mod, opts}) when is_atom(mod) do
-    id = :erlang.make_ref
+    id = :erlang.make_ref()
     port = Keyword.get(opts, :port, 4000)
     mapi_opts = mapi_opts(mod, opts)
+
     spec_opts = [
       scheme: :http,
       plug: {Mapi, mapi_opts},
       options: [ref: id, port: port]
     ]
+
     Plug.Adapters.Cowboy2.child_spec(spec_opts)
   end
 

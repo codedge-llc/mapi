@@ -8,7 +8,7 @@ defmodule Mapi do
     port = Keyword.get(opts, :port, 4000)
     mod = Keyword.get(opts, :mod)
     type = Keyword.get(opts, :type, Mapi.Response.Plain)
-    mod |> info(type, port) |> Logger.debug
+    mod |> info(type, port) |> Logger.debug()
 
     opts
   end
@@ -24,14 +24,16 @@ defmodule Mapi do
       iex> Mapi.start(Enum, [port: 8000])
       {:error, :eaddrinuse}
   """
-  @spec start(module, Keyword.t) :: {:ok, reference}
-                                  | {:error, :eaddrinuse}
-                                  | {:error, term}
+  @spec start(module, Keyword.t()) ::
+          {:ok, reference}
+          | {:error, :eaddrinuse}
+          | {:error, term}
   def start(mod, opts) do
-    id = :erlang.make_ref
+    id = :erlang.make_ref()
     port = Keyword.get(opts, :port, 4000)
     mapi_opts = Mapi.Application.mapi_opts(mod, opts)
-    case Plug.Adapters.Cowboy2.http(Mapi, mapi_opts, [ref: id, port: port]) do
+
+    case Plug.Adapters.Cowboy2.http(Mapi, mapi_opts, ref: id, port: port) do
       {:ok, _pid} -> {:ok, id}
       error -> error
     end
@@ -65,13 +67,13 @@ defmodule Mapi do
   def call(conn, opts) do
     path =
       conn.path_info
-      |> List.first
-      |> String.to_charlist
-      |> List.to_existing_atom
+      |> List.first()
+      |> String.to_charlist()
+      |> List.to_existing_atom()
 
     params =
       Conn.fetch_query_params(conn).query_params
-      |> Map.values
+      |> Map.values()
       |> Enum.map(&mapper/1)
 
     result = apply(opts[:mod], path, params)
@@ -79,15 +81,18 @@ defmodule Mapi do
   rescue
     ArgumentError ->
       resp_not_found(conn, opts)
+
     UndefinedFunctionError ->
       resp_bad_request(conn, opts)
+
     exception ->
-      exception |> inspect() |> Logger.error
+      exception |> inspect() |> Logger.error()
       resp_internal_server_error(conn, opts)
   end
 
   defp resp_result(conn, result, opts) do
     resp = format_result(opts, result)
+
     conn
     |> Conn.put_resp_content_type(content_type(opts))
     |> Conn.send_resp(200, resp)
@@ -95,6 +100,7 @@ defmodule Mapi do
 
   defp resp_not_found(conn, opts) do
     resp = format_result(opts, %{error: :not_found})
+
     conn
     |> Conn.put_resp_content_type(content_type(opts))
     |> Conn.send_resp(404, resp)
@@ -102,6 +108,7 @@ defmodule Mapi do
 
   defp resp_bad_request(conn, opts) do
     resp = format_result(opts, %{error: :bad_request})
+
     conn
     |> Conn.put_resp_content_type(content_type(opts))
     |> Conn.send_resp(400, resp)
@@ -109,6 +116,7 @@ defmodule Mapi do
 
   defp resp_internal_server_error(conn, opts) do
     resp = format_result(opts, %{error: :internal_server_error})
+
     conn
     |> Conn.put_resp_content_type(content_type(opts))
     |> Conn.send_resp(500, resp)

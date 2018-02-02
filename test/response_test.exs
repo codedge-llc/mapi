@@ -3,7 +3,7 @@ defmodule Mapi.ResponseTest do
 
   test "Plaintext response returns proper format" do
     port = Enum.random(4000..7000)
-    {:ok, pid} = Mapi.start(String, [port: port, type: :text])
+    {:ok, pid} = Mapi.start(String, port: port, type: :text)
 
     resp = HTTPoison.get!("http://localhost:#{port}/upcase?q1=elixir")
     assert resp.status_code == 200
@@ -14,7 +14,7 @@ defmodule Mapi.ResponseTest do
 
   test "JSON response returns proper format" do
     port = Enum.random(4000..7000)
-    {:ok, pid} = Mapi.start(String, [port: port, type: :json])
+    {:ok, pid} = Mapi.start(String, port: port, type: :json)
 
     resp = HTTPoison.get!("http://localhost:#{port}/upcase?q1=elixir")
     assert Poison.decode!(resp.body) == "ELIXIR"
@@ -25,7 +25,7 @@ defmodule Mapi.ResponseTest do
 
   test "ETF response returns proper format" do
     port = Enum.random(4000..7000)
-    {:ok, pid} = Mapi.start(String, [port: port, type: :etf])
+    {:ok, pid} = Mapi.start(String, port: port, type: :etf)
 
     resp = HTTPoison.get!("http://localhost:#{port}/upcase?q1=elixir")
     assert resp.status_code == 200
