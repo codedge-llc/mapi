@@ -51,10 +51,10 @@ defmodule Mapi.Mixfile do
   defp deps do
     [
       {:cowboy, "~> 2.1"},
-      {:plug, "~> 1.5.0-rc.1", override: true},
+      {:plug, "~> 1.5.0"},
       {:cors_plug, "~> 1.2"},
       {:poison, "~> 3.0"},
-      {:httpoison, "~> 0.13.0", only: :test},
+      {:httpoison, "~> 1.1", only: :test},
       {:earmark, "~> 1.0", only: :dev},
       {:ex_doc, "~> 0.2", only: :dev},
       {:excoveralls, "~> 0.5", only: :test},
