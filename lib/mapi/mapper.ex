@@ -5,11 +5,6 @@ defmodule Mapi.Mapper do
 
   @doc false
   def init(opts) do
-    port = Keyword.get(opts, :port, 4000)
-    mod = Keyword.get(opts, :mod)
-    type = Keyword.get(opts, :type, Mapi.Response.Plain)
-    mod |> info(type, port) |> Logger.debug()
-
     opts
   end
 
@@ -79,9 +74,5 @@ defmodule Mapi.Mapper do
 
   defp format_result(opts, result) do
     Keyword.get(opts, :type, Mapi.Response.Plain).format_result(result)
-  end
-
-  defp info(mod, type, port) do
-    "Running #{mod} server of type #{type} on port #{port}..."
   end
 end
